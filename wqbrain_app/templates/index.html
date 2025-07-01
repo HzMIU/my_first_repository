@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <title>Alpha Data</title>
+  <style>
+    table {border-collapse: collapse; width: 80%; margin: auto;}
+    th, td {border: 1px solid #ccc; padding: 8px; text-align: left;}
+  </style>
+</head>
+<body>
+  <h1>Alpha Data</h1>
+  <p style="text-align: center"><a href="{{ url_for('refresh') }}">Refresh data</a></p>
+  <table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for alpha in alphas %}
+    <tr>
+      <td>{{ alpha.id }}</td>
+      <td>{{ alpha.name }}</td>
+      <td>{{ alpha.value }}</td>
+      <td>{{ alpha.timestamp }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>
