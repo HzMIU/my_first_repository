@@ -1,6 +1,8 @@
-"""Example module to fetch alpha data from the WQBrain platform."""
+"""Utility for fetching alpha data from the WQBrain platform."""
+
 import logging
-from typing import List, Dict
+import os
+from typing import Dict, List
 
 try:
     import requests
@@ -9,14 +11,34 @@ except ImportError:  # requests may not be installed
     logging.warning("requests library is missing; fetch_alpha will not work")
 
 
-# This is a placeholder. Update with real API calls to WQBrain.
-def fetch_alpha() -> List[Dict]:
-    """Return a list of dictionaries with alpha data."""
+def fetch_alpha() -> List[Dict[str, float]]:
+    """Fetch alpha data from the configured WQBrain API.
+
+    The URL is read from ``WQBRAIN_API_URL``. If the API call fails or the
+    ``requests`` library is missing, an empty list is returned.
+    """
+
     if requests is None:
         logging.error("requests library not installed")
         return []
 
-    # Example: response = requests.get('https://wqbrain.example/api/alpha')
-    # return response.json()
-    logging.info("fetch_alpha called, but no real API implemented")
-    return []
+    url = os.getenv("WQBRAIN_API_URL")
+    if not url:
+        logging.warning("WQBRAIN_API_URL is not set; returning empty data")
+        return []
+
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+    except Exception as exc:  # broad catch to keep the sample simple
+        logging.error("Failed to fetch alpha data: %s", exc)
+        return []
+
+    if not response.content:
+        return []
+
+    try:
+        return response.json()
+    except ValueError:
+        logging.error("Response was not valid JSON")
+        return []

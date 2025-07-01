@@ -16,16 +16,18 @@ pip install -r wqbrain_app/requirements.txt
    Example:
 
 ```bash
-export MYSQL_URI="mysql+pymysql://user:password@localhost/wqbrain"
+export MYSQL_URI="mysql+pymysql://user:password@localhost:3306/wqbrain"
 ```
 
-3. Initialize the database and load alpha data:
+3. Optionally set `WQBRAIN_API_URL` to the endpoint that returns alpha data.
+
+4. Initialize the database and load alpha data:
 
 ```bash
 python -m wqbrain_app.load_alpha
 ```
 
-4. Run the web application:
+5. Run the web application:
 
 ```bash
 python -m wqbrain_app.webapp

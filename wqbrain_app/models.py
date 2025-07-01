@@ -10,3 +10,4 @@ class Alpha(Base):
     name = Column(String(255), nullable=False)
     value = Column(Float, nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
+
